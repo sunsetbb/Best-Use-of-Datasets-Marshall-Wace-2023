@@ -8,8 +8,30 @@ import unittest
 import pretty_midi
 
 
-class Input(unittest.TestCase):
+class Note:
 
+        time_ :float
+        freq_ :float
+        amp_  :float
+        
+        def __init__(self, time, freq, amp):
+            self.time_ = time
+            self.freq_ = freq
+            self.amp_ = amp
+
+        def getFreq(self):
+            return self.freq_
+
+        def __str__(self):
+            return f'(t:{self.time_}, f:{self.freq_}hz, a:{self.amp_})'
+
+        def __repr__(self):
+            return self.__str__()
+
+class Input(unittest.TestCase):
+    
+    
+    
     # Returns a 2D list of frequencies in a MIDI file
     ## Each array is it's own instrument that can be treated seperately.
     ## Skips Drums!
@@ -19,19 +41,9 @@ class Input(unittest.TestCase):
         
         f = lambda n : 440 * 2**((n - 69)/12)
     
-        return  [[f(n.pitch) for n in i.notes] for i in midi_data.instruments if not i.is_drum]
+        return [[Note(n.start, f(n.pitch), n.velocity) for n in i.notes] for i in midi_data.instruments if not i.is_drum]        
 
-
-    def getNotesTimeStamped(path :str) -> list[list]:
-
-        midi_data = pretty_midi.PrettyMIDI(path)
-
-        f = lambda n : 440 * 2**((n - 69)/12)
-
-        return  [[(f(n.pitch), (n.start)) for n in i.notes]
-                 for i in midi_data.instruments if not i.is_drum]
-        
-
+    
     ## Normalise the data between 0 and 1
     def noramaliseNotes(notes :list):
 
@@ -59,7 +71,7 @@ class Input(unittest.TestCase):
 
         n = Input.getNotes('TestDat/test.mid')
 
-        r = lambda n : round(n)
+        r = lambda n : round(n.getFreq())
         
         self.assertEqual(
             [262, 247, 233, 220, 208, 196, 185, 175, 165, 156, 147, 139, 139, 131],
@@ -71,6 +83,9 @@ class Input(unittest.TestCase):
 
 if __name__ == '__main__':
 
+    n = Input.getNotes('TestDat/test.mid')
+
+    print(n)
     
     unittest.main()
     
