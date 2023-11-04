@@ -22,6 +22,29 @@ class Input(unittest.TestCase):
         return  [[f(n.pitch) for n in i.notes] for i in midi_data.instruments if not i.is_drum]
 
 
+    ## Normalise the data between 0 and 1
+    def noramaliseNotes(notes :list):
+
+        m = max(notes)
+        n = lambda x : x/m
+
+        return list(map(n, notes))
+
+
+
+    def test_normaliseNotes(self):
+
+        td = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+        rd = Input.noramaliseNotes(td)
+
+        self.assertEqual(
+            [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+            rd
+        )
+        
+
+    
+    # Test getting notes 
     def test_getNotes(self):
 
         n = Input.getNotes('TestDat/test.mid')
@@ -37,9 +60,7 @@ class Input(unittest.TestCase):
     
 
 if __name__ == '__main__':
-
-    n = Input.getNotes('TestDat/test.mid')
-    print(n)
+    
     unittest.main()
     
     
