@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ChatGPT Dark Mode</title>
+    <style>
+        select {
+            width: calc(100% - 80px);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .chat-container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #444;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .message {
+            background-color: #555;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+
+        .input-container {
+            margin-top: 20px;
+        }
+        .input-container form {
+            background-color: #555;
+            padding: 0px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .input-container input[type="text"] {
+            width: calc(100% - 80px);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .input-container input[type="submit"] {
+            width: 60px;
+            padding: 10px;
+            border: none;
+            background-color: #555;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .navbar {
+            background-color: #555;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            color: #333;
+            border-radius: 10px; /* Adjust the value for the desired roundness */
+            background-color: #f0f0f0; /* Background color for the heading */
+            padding: 10px 20px;
+            display: inline-block; /* Ensures the background covers the content */
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Welcome to infinite music generator.</h1>
+    </div>
+    <div class="chat-container">
+        <h1>Chords</h1>
+
+        <div class="input-container">
+            <label for="chord1">Input:</label>
+            <input type="text" id="chord1" name="chord1" placeholder="Type your chords here..."><br><br>
+            <label for="chord2">Scales:</label>
+            <select name="dropdown" id="dropdown">
+                {% for option in options %}
+                    <option value="{{ option }}">{{ option }}</option>
+                {% endfor %}
+            </select>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <input type="file" name="file">
+                <input type="submit" value="Upload">
+            </form>
+            <input type="submit" value="Enter">
+        </div>
+    </div>
+</body>
+</html>
