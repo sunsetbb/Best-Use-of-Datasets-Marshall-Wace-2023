@@ -22,6 +22,16 @@ class Input(unittest.TestCase):
         return  [[f(n.pitch) for n in i.notes] for i in midi_data.instruments if not i.is_drum]
 
 
+    def getNotesTimeStamped(path :str) -> list[list]:
+
+        midi_data = pretty_midi.PrettyMIDI(path)
+
+        f = lambda n : 440 * 2**((n - 69)/12)
+
+        return  [[(f(n.pitch), (n.start)) for n in i.notes]
+                 for i in midi_data.instruments if not i.is_drum]
+        
+
     ## Normalise the data between 0 and 1
     def noramaliseNotes(notes :list):
 
@@ -60,6 +70,7 @@ class Input(unittest.TestCase):
     
 
 if __name__ == '__main__':
+
     
     unittest.main()
     
